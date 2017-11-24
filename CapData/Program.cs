@@ -29,6 +29,42 @@ namespace CapData
 
             string json2 = HttpHelper.RequestJSONFromUrl(jsonUrl2);
             BasePara<Credit> para2 = JsonConvert.DeserializeObject<BasePara<Credit>>(json2);
+            #region 进行非抓取
+
+            //            string regstr = @"(?i)(?<=<td.*?.*?>)[^<]+(?=</td>)"; //提取td的文字           
+            //string regstr = @"<a\s+href=(?<url>.+?)>(?<content>.+?)</a>";   //提取链接的内容
+                                                                            //            string regstr = @"<td.+?><a\s+href=(?<url>.+?)>(?<content>.+?)</a></td>";  //提取TD中链接的内容
+                                                                            //            string regstr = @"<td.+?><span.+?>(?<content>.+?)</span></td>";  //提取TD中span的内容
+                                                                            //            string regstr = @"<td.+?>(?<content>.+?)</td>";   //获取TD之间所有的内容
+                                                                            //            string regstr = @"<td>(?<content>.+?)-<font color=#0000ff>推荐</font></td>"; //获取内容
+
+           // string regstr = "<a\b[^>]+\bhref=\"/firm_([^ \"]*)\"[^>] *>([\\s\\S] *?)</a>";  //提取页面所有TD内容
+          // string regReplace = @"(?i)[\<]td.*?[\>]";    //将所有<td......> 替换成<td>
+
+            string jsonUrl3 = "http://www.qichacha.com/search?key=%E4%BA%91%E5%AD%A6%E6%97%B6%E4%BB%A3";
+
+
+            string json3 = HttpHelper.RequestJSONFromUrl(jsonUrl3);
+
+
+            Regex reg =
+                new Regex(
+                    @"(?is)<a[^>]*?href=(['""\s]?)(?<href>([^'""\s]*))\.html\1[^>]*?>");
+
+            MatchCollection match = reg.Matches(json3);
+            //            MatchCollection mc = reg.Matches(json3);
+            Console.WriteLine(match[0].Groups["href"].Value);
+            foreach (Match m in match)
+            {
+               // Console.WriteLine(m.Groups[0].ToString());
+                Console.WriteLine(m.Groups["href"].Value + "");
+                Console.WriteLine("------------------------------");
+//                string s = Regex.Replace(m.Groups[0].ToString(), regReplace, "<td>", RegexOptions.IgnoreCase);
+               // Console.WriteLine(s);
+
+            } 
+            #endregion
+
             Console.ReadKey();
 
 
